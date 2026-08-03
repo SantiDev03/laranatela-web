@@ -1,0 +1,47 @@
+---
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+}
+
+const { titulo, descripcion } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo} | La Rañatela</title>
+    <meta name="description" content={descripcion} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body class="min-h-screen bg-white font-sans text-slate-800 antialiased">
+    
+    <a href="#contenido"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-slate-900 focus:px-4 focus:py-2 focus:text-white"
+    >
+      Saltar al contenido principal
+    </a>
+
+    <header class="border-b border-slate-200">
+      <nav class="mx-auto max-w-6xl px-4 py-4" aria-label="Navegación principal">
+        <span class="text-xl font-bold text-marca-800">La Rañatela</span>
+      </nav>
+    </header>
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <footer class="mt-24 border-t border-slate-200 py-8">
+      <div class="mx-auto max-w-6xl px-4 text-sm text-slate-600">
+        <p>J. B. Martínez 200, Maipú, Mendoza</p>
+      </div>
+    </footer>
+  </body>
+</html>

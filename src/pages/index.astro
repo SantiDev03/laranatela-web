@@ -1,17 +1,18 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  titulo="Inicio"
+  descripcion="Fabricación de eco bolsas reutilizables y merchandising con inclusión socio-laboral de personas con discapacidad en Maipú, Mendoza."
+>
+  <section class="mx-auto max-w-6xl px-4 py-24">
+    <h1 class="text-4xl font-bold text-balance text-marca-800 sm:text-6xl">
+  Ensamblando habilidades, <span class="text-acento-600">tejiendo oportunidades</span>
+</h1>
+    <p class="mt-6 max-w-2xl text-lg text-slate-600">
+      Más de 90 personas con discapacidad trabajando en la fabricación de eco
+      bolsas reutilizables, merchandising y servicios para empresas.
+    </p>
+  </section>
+</Layout>
