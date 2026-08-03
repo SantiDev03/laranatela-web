@@ -1,0 +1,44 @@
+---
+const rutaActual = Astro.url.pathname;
+
+const enlaces = [
+  { href: '/', texto: 'Inicio' },
+  { href: '/historia', texto: 'Historia' },
+  { href: '/productos', texto: 'Productos' },
+  { href: '/servicios', texto: 'Servicios' },
+  { href: '/ecogualdad', texto: 'Ecogualdad' },
+  { href: '/contacto', texto: 'Contacto' },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+  <nav
+    class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4"
+    aria-label="Navegación principal"
+  >
+    <a href="/" class="text-xl font-bold text-marca-800">La Rañatela</a>
+
+    <ul class="hidden items-center gap-6 md:flex">
+      {
+        enlaces.map((enlace) => (
+          <li>
+            <a
+              href={enlace.href}
+              aria-current={rutaActual === enlace.href ? 'page' : undefined}
+              class="text-sm font-medium text-slate-700 transition hover:text-marca-700 aria-[current=page]:text-marca-700 aria-[current=page]:underline aria-[current=page]:underline-offset-4"
+            >
+              {enlace.texto}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a
+      href="tel:2615341275"
+      class="rounded-lg bg-marca-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-marca-800"
+    >
+      Llamanos
+    </a>
+  </nav>
+</header>
