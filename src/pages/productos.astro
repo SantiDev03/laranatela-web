@@ -1,21 +1,58 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 
 const productos = await getCollection('productos');
 productos.sort((a, b) => a.data.orden - b.data.orden);
 
 const categorias = [
-  { id: 'ecobolsas', nombre: 'Ecobolsas' },
-  { id: 'mochilas-bolsos', nombre: 'Mochilas y Bolsos' },
-  { id: 'combos', nombre: 'Combos' },
-  { id: 'merchandising', nombre: 'Merchandising' },
+  { id: 'bolsas', nombre: 'Bolsas y ecobolsas', agruparPorMaterial: true },
+  { id: 'mochilas-bolsos', nombre: 'Mochilas y bolsos', agruparPorMaterial: false },
+  { id: 'neceseres', nombre: 'Neceseres y cartucheras', agruparPorMaterial: false },
+  { id: 'linea-vinos', nombre: 'Línea vinos', agruparPorMaterial: false },
+  { id: 'termicos', nombre: 'Línea térmica', agruparPorMaterial: false },
+  { id: 'indumentaria', nombre: 'Indumentaria y uniformes', agruparPorMaterial: false },
+  { id: 'combos', nombre: 'Combos y sets', agruparPorMaterial: false },
+  { id: 'merchandising', nombre: 'Merchandising', agruparPorMaterial: false },
+];
+
+const nombresMaterial: Record<string, string> = {
+  lienzo: 'Lienzo',
+  friselina: 'Friselina',
+  gabardina: 'Gabardina',
+  brin: 'Brin',
+  jean: 'Jean',
+  neoprene: 'Neoprene',
+  poliester: 'Poliéster',
+  polar: 'Polar',
+  ceramica: 'Cerámica',
+  mixto: 'Materiales combinados',
+};
+
+const nombresFuelle: Record<string, string> = {
+  'sin-fuelle': 'Sin fuelle',
+  base: 'Fuelle en base',
+  contorno: 'Fuelle en contorno',
+};
+
+const ordenMateriales = [
+  'lienzo',
+  'friselina',
+  'gabardina',
+  'brin',
+  'jean',
+  'neoprene',
+  'poliester',
+  'polar',
+  'ceramica',
+  'mixto',
 ];
 ---
 
 <Layout
   titulo="Productos"
-  descripcion="Eco bolsas reutilizables, mochilas, bolsos, combos y merchandising fabricados a pedido en Maipú, Mendoza."
+  descripcion="Bolsas de lienzo y friselina, mochilas, neceseres, línea vinos e indumentaria. Fabricación a medida en Maipú, Mendoza."
 >
   <section class="mx-auto max-w-6xl px-4 py-16">
     <p class="text-sm font-semibold tracking-wide text-acento-700 uppercase">
@@ -24,11 +61,38 @@ const categorias = [
     <h1 class="mt-3 text-4xl font-bold text-marca-800 sm:text-5xl">
       Nuestros productos
     </h1>
-    <p class="mt-4 max-w-2xl text-lg text-slate-600">
-      Todos nuestros productos se fabrican a pedido y se adaptan a los
-      requerimientos de cada cliente. El plazo de entrega estimado es de 10 a 15
-      días hábiles.
-    </p>
+
+    <div class="mt-6 max-w-2xl rounded-xl border border-marca-200 bg-marca-50 p-6">
+      <p class="text-lg font-semibold text-marca-800">
+        Cada producto se fabrica a tu medida
+      </p>
+      <p class="mt-2 text-slate-700">
+        No trabajamos con medidas fijas: adaptamos el tamaño, el material, los
+        colores y la gráfica a lo que necesite cada cliente. Contanos las
+        medidas y la cantidad que buscás y te enviamos el presupuesto sin cargo.
+      </p>
+      <p class="mt-4 text-sm text-slate-600">
+        Plazo de entrega estimado: 10 a 15 días hábiles desde la aprobación del
+        arte.
+      </p>
+    </div>
+
+    <nav aria-label="Categorías de productos" class="mt-10">
+      <ul class="flex flex-wrap gap-3">
+        {
+          categorias.map((categoria) => (
+            <li>
+              <a
+                href={`#${categoria.id}`}
+                class="inline-block rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-marca-500 hover:bg-marca-50 hover:text-marca-800"
+              >
+                {categoria.nombre}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
 
     {
       categorias.map((categoria) => {
@@ -38,56 +102,125 @@ const categorias = [
 
         if (deCategoria.length === 0) return null;
 
+        const materialesPresentes = categoria.agruparPorMaterial
+          ? ordenMateriales.filter((material) =>
+              deCategoria.some((producto) => producto.data.material === material)
+            )
+          : [];
+
+        const grupos = categoria.agruparPorMaterial
+          ? materialesPresentes.map((material) => ({
+              titulo: nombresMaterial[material],
+              items: deCategoria.filter(
+                (producto) => producto.data.material === material
+              ),
+            }))
+          : [{ titulo: null, items: deCategoria }];
+
         return (
-          <div class="mt-16">
-            <h2 class="text-2xl font-bold text-marca-800">{categoria.nombre}</h2>
+          <div class="mt-16 scroll-mt-24" id={categoria.id}>
+            <h2 class="border-b border-slate-200 pb-3 text-2xl font-bold text-marca-800">
+              {categoria.nombre}
+            </h2>
 
-            <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {deCategoria.map((producto) => (
-                <li class="rounded-xl border border-slate-200 p-6 transition hover:border-marca-400 hover:shadow-md">
-                  <h3 class="text-lg font-semibold text-slate-900">
-                    {producto.data.nombre}
+            {grupos.map((grupo) => (
+              <div class="mt-8">
+                {grupo.titulo && (
+                  <h3 class="text-lg font-semibold text-slate-700">
+                    {grupo.titulo}
                   </h3>
-                  <p class="mt-2 text-sm text-slate-600">
-                    {producto.data.resumen}
-                  </p>
+                )}
 
-                  <dl class="mt-4 space-y-1 text-sm text-slate-500">
-                    {producto.data.medidas && (
-                      <div class="flex gap-2">
-                        <dt class="font-medium">Medidas:</dt>
-                        <dd>{producto.data.medidas}</dd>
-                      </div>
-                    )}
-                    {producto.data.material && (
-                      <div class="flex gap-2">
-                        <dt class="font-medium">Material:</dt>
-                        <dd>{producto.data.material}</dd>
-                      </div>
-                    )}
-                    {producto.data.minimo && (
-                      <div class="flex gap-2">
-                        <dt class="font-medium">Mínimo:</dt>
-                        <dd>{producto.data.minimo} unidades</dd>
-                      </div>
-                    )}
-                  </dl>
+                <ul class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {grupo.items.map((producto) => (
+                    <li class="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 transition hover:border-marca-400 hover:shadow-md focus-within:ring-2 focus-within:ring-marca-600 focus-within:ring-offset-2">
+                      {producto.data.imagen && (
+                        <Image
+                          src={producto.data.imagen}
+                          alt={producto.data.imagenAlt ?? producto.data.nombre}
+                          widths={[300, 600]}
+                          sizes="(max-width: 640px) 100vw, 350px"
+                          class="aspect-square w-full bg-slate-50 object-cover"
+                          loading="lazy"
+                        />
+                      )}
 
-                  {producto.data.impresion.length > 0 && (
-                    <ul class="mt-4 flex flex-wrap gap-2">
-                      {producto.data.impresion.map((tecnica) => (
-                        <li class="rounded-full bg-marca-100 px-3 py-1 text-xs font-medium text-marca-800">
-                          {tecnica}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+                      <div class="flex flex-1 flex-col p-6">
+                      {producto.data.reciclado && (
+                        <p class="mb-3 inline-flex w-fit rounded-full bg-acento-600 px-3 py-1 text-xs font-semibold text-white">
+                          Material recuperado
+                        </p>
+                      )}
+
+                      <h4 class="text-lg font-semibold text-slate-900">
+                        <a
+                          href={`/productos/${producto.id}`}
+                          class="after:absolute after:inset-0 group-hover:text-marca-700 focus:outline-none"
+                        >
+                          {producto.data.nombre}
+                        </a>
+                      </h4>
+
+                      <p class="mt-2 text-sm text-slate-600">
+                        {producto.data.resumen}
+                      </p>
+
+                      <dl class="mt-4 space-y-1 text-sm text-slate-500">
+                        <div class="flex gap-2">
+                          <dt class="font-medium">Material:</dt>
+                          <dd>{nombresMaterial[producto.data.material]}</dd>
+                        </div>
+                        {producto.data.fuelle && (
+                          <div class="flex gap-2">
+                            <dt class="font-medium">Fuelle:</dt>
+                            <dd>{nombresFuelle[producto.data.fuelle]}</dd>
+                          </div>
+                        )}
+                        {producto.data.medidaReferencia && (
+                          <div class="flex gap-2">
+                            <dt class="font-medium">Medida habitual:</dt>
+                            <dd>{producto.data.medidaReferencia}</dd>
+                          </div>
+                        )}
+                      </dl>
+
+                      {producto.data.impresion.length > 0 && (
+                        <ul class="mt-4 flex flex-wrap gap-2">
+                          {producto.data.impresion.map((tecnica) => (
+                            <li class="rounded-full bg-marca-100 px-3 py-1 text-xs font-medium text-marca-800">
+                              {tecnica}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      <p class="mt-4 pt-2 text-sm font-medium text-marca-700">
+                        Ver ficha completa
+                        <span aria-hidden="true"> →</span>
+                      </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         );
       })
     }
+
+    <div class="mt-20 rounded-xl bg-marca-700 p-8 text-white">
+      <h2 class="text-2xl font-bold">¿No encontrás lo que buscás?</h2>
+      <p class="mt-2 max-w-2xl text-marca-100">
+        Fabricamos a pedido. Si tenés una idea, un boceto o una medida
+        específica, contanos y lo desarrollamos con vos.
+      </p>
+      <a
+        href="/contacto"
+        class="mt-6 inline-block rounded-lg bg-white px-6 py-3 font-semibold text-marca-800 transition hover:bg-marca-50"
+      >
+        Pedir presupuesto
+      </a>
+    </div>
   </section>
 </Layout>

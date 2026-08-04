@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
@@ -20,10 +21,33 @@ const { producto } = Astro.props;
 const { Content } = await render(producto);
 
 const nombresCategoria: Record<string, string> = {
-  ecobolsas: 'Ecobolsas',
-  'mochilas-bolsos': 'Mochilas y Bolsos',
-  combos: 'Combos',
+  bolsas: 'Bolsas y ecobolsas',
+  'mochilas-bolsos': 'Mochilas y bolsos',
+  neceseres: 'Neceseres y cartucheras',
+  'linea-vinos': 'Línea vinos',
+  termicos: 'Línea térmica',
+  indumentaria: 'Indumentaria y uniformes',
+  combos: 'Combos y sets',
   merchandising: 'Merchandising',
+};
+
+const nombresMaterial: Record<string, string> = {
+  lienzo: 'Lienzo',
+  friselina: 'Friselina',
+  gabardina: 'Gabardina',
+  brin: 'Brin',
+  jean: 'Jean',
+  neoprene: 'Neoprene',
+  poliester: 'Poliéster',
+  polar: 'Polar',
+  ceramica: 'Cerámica',
+  mixto: 'Materiales combinados',
+};
+
+const nombresFuelle: Record<string, string> = {
+  'sin-fuelle': 'Sin fuelle',
+  base: 'Fuelle en base',
+  contorno: 'Fuelle en contorno',
 };
 ---
 
@@ -49,36 +73,88 @@ const nombresCategoria: Record<string, string> = {
       {producto.data.nombre}
     </h1>
 
+    {
+      producto.data.reciclado && (
+        <p class="mt-4 inline-flex rounded-full bg-acento-600 px-4 py-1.5 text-sm font-semibold text-white">
+          Confeccionado con material recuperado
+        </p>
+      )
+    }
+
     <p class="mt-4 text-lg text-slate-600">{producto.data.resumen}</p>
+
+    {
+      producto.data.imagen && (
+        <Image
+          src={producto.data.imagen}
+          alt={producto.data.imagenAlt ?? producto.data.nombre}
+          widths={[400, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 768px"
+          class="mt-8 w-full rounded-xl border border-slate-200"
+          loading="eager"
+        />
+      )
+    }
+
+    {
+      producto.data.galeria.length > 0 && (
+        <ul class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {producto.data.galeria.map((foto) => (
+            <li>
+              <Image
+                src={foto.src}
+                alt={foto.alt}
+                widths={[200, 400]}
+                sizes="(max-width: 640px) 50vw, 240px"
+                class="aspect-square w-full rounded-lg border border-slate-200 object-cover"
+                loading="lazy"
+              />
+            </li>
+          ))}
+        </ul>
+      )
+    }
 
     <div class="mt-10 rounded-xl border border-slate-200 bg-slate-50 p-6">
       <h2 class="text-lg font-semibold text-slate-900">Ficha técnica</h2>
 
       <dl class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <dt class="text-sm font-medium text-slate-500">Material</dt>
+          <dd class="mt-1 text-slate-800">
+            {nombresMaterial[producto.data.material]}
+          </dd>
+        </div>
+
         {
-          producto.data.medidas && (
+          producto.data.fuelle && (
             <div>
-              <dt class="text-sm font-medium text-slate-500">Medidas</dt>
-              <dd class="mt-1 text-slate-800">{producto.data.medidas}</dd>
+              <dt class="text-sm font-medium text-slate-500">Fuelle</dt>
+              <dd class="mt-1 text-slate-800">
+                {nombresFuelle[producto.data.fuelle]}
+              </dd>
             </div>
           )
         }
+
+        <div>
+          <dt class="text-sm font-medium text-slate-500">Medidas</dt>
+          <dd class="mt-1 text-slate-800">
+            {producto.data.medidaReferencia ?? 'A medida del cliente'}
+          </dd>
+        </div>
+
         {
-          producto.data.material && (
+          producto.data.colores.length > 0 && (
             <div>
-              <dt class="text-sm font-medium text-slate-500">Material</dt>
-              <dd class="mt-1 text-slate-800">{producto.data.material}</dd>
+              <dt class="text-sm font-medium text-slate-500">Colores</dt>
+              <dd class="mt-1 text-slate-800">
+                {producto.data.colores.join(', ')}
+              </dd>
             </div>
           )
         }
-        {
-          producto.data.minimo && (
-            <div>
-              <dt class="text-sm font-medium text-slate-500">Pedido mínimo</dt>
-              <dd class="mt-1 text-slate-800">{producto.data.minimo} unidades</dd>
-            </div>
-          )
-        }
+
         {
           producto.data.impresion.length > 0 && (
             <div>
@@ -89,6 +165,7 @@ const nombresCategoria: Record<string, string> = {
             </div>
           )
         }
+
         <div>
           <dt class="text-sm font-medium text-slate-500">Plazo de entrega</dt>
           <dd class="mt-1 text-slate-800">10 a 15 días hábiles</dd>
@@ -103,8 +180,8 @@ const nombresCategoria: Record<string, string> = {
     <div class="mt-12 rounded-xl bg-marca-700 p-8 text-white">
       <h2 class="text-2xl font-bold">¿Te interesa este producto?</h2>
       <p class="mt-2 text-marca-100">
-        Contanos cantidad, colores y qué querés imprimir, y te enviamos un
-        presupuesto sin cargo.
+        Contanos las medidas, la cantidad y qué querés imprimir, y te enviamos
+        un presupuesto sin cargo.
       </p>
       <a
         href="/contacto"

@@ -1,16 +1,23 @@
 ---
 nombre: Mochila Urbana
 categoria: mochilas-bolsos
-resumen: Mochila resistente para uso diario, personalizable con la marca de tu empresa.
-medidas: 45 x 32 x 15 cm
-material: Cordura
+material: poliester
+resumen: Mochila de uso diario con bolsillo frontal con cierre, espalda acolchada y tiras regulables.
+colores:
+  - A elección del cliente
 impresion:
   - Serigrafía
   - Bordado
-minimo: 50
+reciclado: false
 destacado: true
-orden: 2
+orden: 1
+imagen: ../../assets/productos/mochila-urbana.jpg
+imagenAlt: Mochila gris melange con cierre frontal horizontal y tiras negras
+galeria:
+  - src: ../../assets/productos/mochila-urbana-lateral.jpg
+    alt: Vista lateral de la mochila gris mostrando el fuelle y los cierres
+  - src: ../../assets/productos/mochila-urbana-espalda.jpg
+    alt: Parte trasera de la mochila con tiras acolchadas regulables
 ---
 
-Mochila con compartimento principal amplio, bolsillo frontal y espalda
-acolchada. Ideal para entrega institucional o merchandising corporativo.
+Mochila con compartimento principal amplio, bolsillo frontal con cierre y tiras regulables acolchadas. Muy elegida para entrega institucional a personal y para kits de bienvenida.
