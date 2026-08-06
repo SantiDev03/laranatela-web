@@ -1,0 +1,128 @@
+---
+// Visor de imágenes a pantalla completa.
+// Se activa sobre cualquier <img data-ampliable> dentro de un [data-galeria].
+---
+
+<dialog
+  id="visor"
+  class="max-h-none max-w-none bg-transparent p-0 backdrop:bg-acento-700/90"
+  aria-label="Visor de imágenes"
+>
+  <div class="relative flex h-screen w-screen items-center justify-center p-4 sm:p-10">
+    <button
+      type="button"
+      data-visor-cerrar
+      class="absolute top-4 right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-2xl leading-none text-acento-700 transition hover:bg-marca-600 hover:text-white focus:ring-2 focus:ring-white focus:outline-none"
+      aria-label="Cerrar visor"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+    <button
+      type="button"
+      data-visor-anterior
+      class="absolute left-2 z-10 hidden h-12 w-12 items-center justify-center rounded-full bg-white/95 text-3xl leading-none text-acento-700 transition hover:bg-marca-600 hover:text-white focus:ring-2 focus:ring-white focus:outline-none sm:left-6"
+      aria-label="Imagen anterior"
+    >
+      <span aria-hidden="true">&lsaquo;</span>
+    </button>
+
+    <button
+      type="button"
+      data-visor-siguiente
+      class="absolute right-2 z-10 hidden h-12 w-12 items-center justify-center rounded-full bg-white/95 text-3xl leading-none text-acento-700 transition hover:bg-marca-600 hover:text-white focus:ring-2 focus:ring-white focus:outline-none sm:right-6"
+      aria-label="Imagen siguiente"
+    >
+      <span aria-hidden="true">&rsaquo;</span>
+    </button>
+
+    <figure class="flex max-h-full flex-col items-center gap-4">
+      <img
+        data-visor-imagen
+        src=""
+        alt=""
+        class="max-h-[80vh] w-auto max-w-full rounded-lg object-contain"
+      />
+      <figcaption
+        data-visor-pie
+        class="max-w-2xl text-center text-sm text-white/90"
+      >
+      </figcaption>
+    </figure>
+  </div>
+</dialog>
+
+<script is:inline>
+  (function () {
+    var visor = document.getElementById('visor');
+    if (!visor) return;
+
+    var imagen = visor.querySelector('[data-visor-imagen]');
+    var pie = visor.querySelector('[data-visor-pie]');
+    var anterior = visor.querySelector('[data-visor-anterior]');
+    var siguiente = visor.querySelector('[data-visor-siguiente]');
+    var cerrar = visor.querySelector('[data-visor-cerrar]');
+
+    var grupo = [];
+    var indice = 0;
+    var origen = null;
+
+    function mostrar() {
+      var actual = grupo[indice];
+      if (!actual) return;
+
+      imagen.srcset = actual.srcset || '';
+      imagen.sizes = '100vw';
+      imagen.src = actual.currentSrc || actual.src;
+      imagen.alt = actual.alt || '';
+      pie.textContent = actual.alt || '';
+
+      var hayVarias = grupo.length > 1;
+      anterior.classList.toggle('hidden', !hayVarias);
+      anterior.classList.toggle('flex', hayVarias);
+      siguiente.classList.toggle('hidden', !hayVarias);
+      siguiente.classList.toggle('flex', hayVarias);
+    }
+
+    function mover(paso) {
+      if (grupo.length < 2) return;
+      indice = (indice + paso + grupo.length) % grupo.length;
+      mostrar();
+    }
+
+    document.addEventListener('click', function (evento) {
+      var objetivo = evento.target;
+      if (!objetivo || objetivo.tagName !== 'IMG') return;
+
+      var contenedor = objetivo.closest('[data-galeria]');
+      if (!contenedor) return;
+
+      evento.preventDefault();
+
+      grupo = [].slice.call(contenedor.querySelectorAll('img'));
+      indice = grupo.indexOf(objetivo);
+      if (indice < 0) indice = 0;
+      origen = objetivo;
+
+      mostrar();
+      visor.showModal();
+    });
+
+    anterior.addEventListener('click', function () { mover(-1); });
+    siguiente.addEventListener('click', function () { mover(1); });
+    cerrar.addEventListener('click', function () { visor.close(); });
+
+    visor.addEventListener('click', function (evento) {
+      if (!evento.target.closest('figure, button')) visor.close();
+    });
+
+    visor.addEventListener('keydown', function (evento) {
+      if (evento.key === 'ArrowLeft') mover(-1);
+      if (evento.key === 'ArrowRight') mover(1);
+    });
+
+    visor.addEventListener('close', function () {
+      if (origen) origen.focus();
+    });
+  })();
+</script>

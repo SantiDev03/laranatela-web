@@ -1,18 +1,210 @@
 ---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import Clientes from '../components/Clientes.astro';
+
+const productos = await getCollection('productos');
+
+const destacados = productos
+  .filter((producto) => producto.data.destacado)
+  .sort((a, b) => a.data.orden - b.data.orden)
+  .slice(0, 8);
+
+const cifras = [
+  { dato: '+90', detalle: 'personas incluidas' },
+  { dato: '2009', detalle: 'año de fundación' },
+  { dato: '10-15', detalle: 'días hábiles de entrega' },
+  { dato: '100%', detalle: 'a medida del cliente' },
+];
+
+const familias = [
+  { href: '/productos#bolsas', texto: 'Bolsas y ecobolsas', color: 'marca' },
+  { href: '/productos#mochilas-bolsos', texto: 'Mochilas y bolsos', color: 'azul' },
+  { href: '/productos#linea-vinos', texto: 'Línea vinos', color: 'naranja' },
+  { href: '/productos#indumentaria', texto: 'Indumentaria', color: 'violeta' },
+  { href: '/productos#termicos', texto: 'Línea térmica', color: 'marca' },
+  { href: '/productos#neceseres', texto: 'Neceseres', color: 'azul' },
+];
+
+const estiloChip: Record<string, string> = {
+  marca: 'border-marca-600 text-marca-600 hover:bg-marca-600 hover:text-white',
+  azul: 'border-vivo-azul text-vivo-azul hover:bg-vivo-azul hover:text-white',
+  naranja:
+    'border-vivo-naranja text-vivo-naranja hover:bg-vivo-naranja hover:text-white',
+  violeta:
+    'border-vivo-violeta text-vivo-violeta hover:bg-vivo-violeta hover:text-white',
+};
 ---
 
 <Layout
   titulo="Inicio"
-  descripcion="Fabricación de eco bolsas reutilizables y merchandising con inclusión socio-laboral de personas con discapacidad en Maipú, Mendoza."
+  descripcion="Fabricamos bolsas, mochilas, neceseres e indumentaria a medida en Maipú, Mendoza. Cada pedido sostiene el trabajo de más de 90 personas con discapacidad."
 >
-  <section class="mx-auto max-w-6xl px-4 py-24">
-    <h1 class="text-4xl font-bold text-balance text-marca-800 sm:text-6xl">
-  Ensamblando habilidades, <span class="text-acento-600">tejiendo oportunidades</span>
-</h1>
-    <p class="mt-6 max-w-2xl text-lg text-slate-600">
-      Más de 90 personas con discapacidad trabajando en la fabricación de eco
-      bolsas reutilizables, merchandising y servicios para empresas.
+  <section class="bg-lienzo py-20 sm:py-28">
+    <div class="mx-auto max-w-6xl px-4">
+      <p
+        class="flex items-center gap-3 text-xs font-semibold tracking-[0.16em] text-marca-600 uppercase"
+      >
+        Maipú, Mendoza · desde 2009
+        <span class="costura hidden w-24 sm:block" aria-hidden="true"></span>
+      </p>
+
+      <h1 class="mt-5 text-5xl sm:text-7xl">
+        <span class="registro block" data-t="Ensamblando habilidades">
+          <span>Ensamblando habilidades</span>
+        </span>
+        <span class="registro mt-1 block" data-t="tejiendo oportunidades">
+          <span>tejiendo oportunidades</span>
+        </span>
+      </h1>
+
+      <p class="revelar mt-8 max-w-xl text-lg text-stone-600">
+        Fabricamos bolsas, mochilas, neceseres e indumentaria a medida para
+        empresas. Cada pedido sostiene el trabajo de más de 90 personas con
+        discapacidad.
+      </p>
+
+      <div class="revelar mt-9 flex flex-wrap gap-4">
+        <a
+          href="/productos"
+          class="rounded-full bg-marca-600 px-6 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-marca-700"
+        >
+          Ver catálogo
+        </a>
+        <a
+          href="/contacto"
+          class="rounded-full border-2 border-acento-700 px-6 py-3 font-semibold text-acento-700 transition hover:bg-acento-700 hover:text-white"
+        >
+          Cómo trabajamos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="revelar-grupo grid grid-cols-2 gap-px border-y border-stone-200 bg-stone-200 lg:grid-cols-4">
+    {
+      cifras.map((cifra) => (
+        <div class="bg-white px-6 py-7">
+          <p class="font-display text-4xl font-extrabold text-marca-600">
+            {cifra.dato}
+          </p>
+          <p class="mt-2 text-sm text-stone-600">{cifra.detalle}</p>
+        </div>
+      ))
+    }
+  </div>
+
+  <Clientes />
+
+  <section class="mx-auto max-w-6xl px-4 py-20">
+    <h2 class="text-3xl sm:text-4xl">
+      <span class="registro" data-t="Qué fabricamos"><span>Qué fabricamos</span></span>
+    </h2>
+    <p class="mt-5 max-w-xl text-stone-600">
+      Todo se confecciona a pedido. No trabajamos con medidas fijas: contanos
+      qué necesitás y lo adaptamos al material, el tamaño y la gráfica de tu
+      marca.
     </p>
+
+    <ul class="revelar-grupo mt-8 flex flex-wrap gap-3">
+      {
+        familias.map((familia) => (
+          <li>
+            <a
+              href={familia.href}
+              class={`inline-block rounded-full border-2 px-4 py-2 text-sm font-semibold transition ${estiloChip[familia.color]}`}
+            >
+              {familia.texto}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="revelar-grupo mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        destacados.map((producto) => (
+          <li class="group relative flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white transition hover:-translate-y-1 hover:border-marca-600 hover:shadow-lg focus-within:ring-2 focus-within:ring-marca-600 focus-within:ring-offset-2">
+            {producto.data.reciclado && (
+              <span class="absolute top-3.5 left-3.5 z-10 rounded-full bg-acento-700 px-3 py-1.5 text-[11px] font-bold tracking-wider text-white uppercase">
+                Material recuperado
+              </span>
+            )}
+
+            {producto.data.imagen && (
+              <div class="aspect-square overflow-hidden bg-lienzo">
+                <Image
+                  src={producto.data.imagen}
+                  alt={producto.data.imagenAlt ?? producto.data.nombre}
+                  widths={[300, 600]}
+                  sizes="(max-width: 640px) 100vw, 300px"
+                  class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            )}
+
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="text-lg font-bold">
+                <a
+                  href={`/productos/${producto.id}`}
+                  class="after:absolute after:inset-0 group-hover:text-marca-700 focus:outline-none"
+                >
+                  {producto.data.nombre}
+                </a>
+              </h3>
+              <p class="mt-2 text-sm text-stone-600">{producto.data.resumen}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-10">
+      <a
+        href="/productos"
+        class="font-semibold text-marca-600 underline decoration-2 underline-offset-4 hover:text-marca-700"
+      >
+        Ver el catálogo completo
+      </a>
+    </p>
+  </section>
+
+  <section class="revelar bg-acento-700 py-16 text-white">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-3xl font-extrabold sm:text-4xl">
+        ¿Tu empresa está renovando uniformes?
+      </h2>
+      <p class="mt-4 max-w-xl text-stone-300">
+        Recibimos indumentaria dada de baja y la transformamos en delantales,
+        bolsos y accesorios. Menos residuo textil, más trabajo inclusivo.
+      </p>
+      <a
+        href="/contacto"
+        class="mt-8 inline-block rounded-full bg-white px-6 py-3 font-semibold text-acento-700 transition hover:bg-marca-600 hover:text-white"
+      >
+        Consultar por reciclado textil
+      </a>
+    </div>
+  </section>
+
+  <section class="revelar mx-auto max-w-3xl px-4 py-20 text-center">
+    <h2 class="text-3xl sm:text-4xl">
+      <span class="registro" data-t="Comprar acá tiene otro sentido">
+        <span>Comprar acá tiene otro sentido</span>
+      </span>
+    </h2>
+    <p class="mt-6 text-lg text-stone-600">
+      Detrás de cada bolsa hay personas que no encontraron lugar en el mercado
+      laboral convencional y que acá tienen trabajo, formación y participación
+      social. No es un dato de marketing: es la razón por la que existimos.
+    </p>
+    <a
+      href="/historia"
+      class="mt-8 inline-block font-semibold text-marca-600 underline decoration-2 underline-offset-4 hover:text-marca-700"
+    >
+      Conocé nuestra historia
+    </a>
   </section>
 </Layout>

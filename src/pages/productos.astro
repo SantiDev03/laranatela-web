@@ -7,9 +7,9 @@ const productos = await getCollection('productos');
 productos.sort((a, b) => a.data.orden - b.data.orden);
 
 const categorias = [
-  { id: 'bolsas', nombre: 'Bolsas y ecobolsas', agruparPorMaterial: true },
+  { id: 'bolsas', nombre: 'Ecobolsas', agruparPorMaterial: true },
   { id: 'mochilas-bolsos', nombre: 'Mochilas y bolsos', agruparPorMaterial: false },
-  { id: 'neceseres', nombre: 'Neceseres y cartucheras', agruparPorMaterial: false },
+  { id: 'neceseres', nombre: 'Neceseres/cartucheras', agruparPorMaterial: false },
   { id: 'linea-vinos', nombre: 'Línea vinos', agruparPorMaterial: false },
   { id: 'termicos', nombre: 'Línea térmica', agruparPorMaterial: false },
   { id: 'indumentaria', nombre: 'Indumentaria y uniformes', agruparPorMaterial: false },

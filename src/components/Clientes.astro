@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+
+import cocaCola from '../assets/clientes/coca-cola.png';
+import andina from '../assets/clientes/andina.png';
+import ypf from '../assets/clientes/ypf.png';
+import arcor from '../assets/clientes/arcor.png';
+import fecovita from '../assets/clientes/fecovita.png';
+
+const clientes = [
+  { logo: cocaCola, nombre: 'Coca-Cola' },
+  { logo: andina, nombre: 'Andina' },
+  { logo: ypf, nombre: 'YPF' },
+  { logo: arcor, nombre: 'Arcor' },
+  { logo: fecovita, nombre: 'Fecovita' },
+];
+---
+
+<section class="border-y border-stone-200 bg-white py-16">
+  <div class="mx-auto max-w-6xl px-4">
+    <p
+      class="text-center text-xs font-semibold tracking-[0.18em] text-marca-600 uppercase"
+    >
+      Empresas que confían
+    </p>
+
+    <h2 class="mt-3 text-center text-3xl sm:text-4xl">
+      <span class="registro" data-t="Producimos para grandes marcas">
+        <span>Producimos para grandes marcas</span>
+      </span>
+    </h2>
+
+    <ul
+      class="revelar-grupo mt-12 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5"
+    >
+      {
+        clientes.map((cliente) => (
+          <li class="flex h-20 w-full items-center justify-center">
+            <Image
+              src={cliente.logo}
+              alt={`Logo de ${cliente.nombre}`}
+              widths={[220, 440]}
+              sizes="200px"
+              class="max-h-16 w-auto max-w-[170px] object-contain opacity-70 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0"
+              loading="lazy"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

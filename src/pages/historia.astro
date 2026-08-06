@@ -1,46 +1,126 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+
+import fotoOficio from '../assets/historia/serigrafia-proceso.jpg';
+import fotoTaller from '../assets/historia/taller-serigrafia.jpg';
+import fotoEquipo from '../assets/historia/produccion-bolsas.jpg';
+
+const hitos = [
+  {
+    anio: '2009',
+    titulo: 'El comienzo',
+    detalle:
+      'La directora trae la experiencia de la Rañatela italiana y arranca el proyecto con la serigrafía como primer oficio.',
+  },
+  {
+    anio: 'En el camino',
+    titulo: 'Red Activos',
+    detalle:
+      'Llegan las primeras ventas importantes y la inserción en un mercado competitivo.',
+  },
+  {
+    anio: '2014',
+    titulo: 'Sede propia',
+    detalle:
+      'Después de varias mudanzas, se concreta el gran sueño del lugar propio en Maipú.',
+  },
+  {
+    anio: 'Hoy',
+    titulo: 'Dos ampliaciones',
+    detalle:
+      'Más sectores, más productos y más de 90 personas incluidas en un contexto socio-laboral real.',
+  },
+];
 ---
 
 <Layout
   titulo="Historia"
   descripcion="La Rañatela nació en 2009 en Maipú, Mendoza. Hoy incluye a más de 90 personas con discapacidad en un espacio real de inclusión socio-laboral."
 >
-  <section class="mx-auto max-w-3xl px-4 py-16 sm:py-24">
-    <p class="text-sm font-semibold tracking-wide text-acento-700 uppercase">
-      Quiénes somos
-    </p>
+  <section class="bg-lienzo py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-4">
+      <p
+        class="flex items-center gap-3 text-xs font-semibold tracking-[0.16em] text-marca-600 uppercase"
+      >
+        Quiénes somos
+        <span class="costura hidden w-20 sm:block" aria-hidden="true"></span>
+      </p>
 
-    <h1 class="mt-3 text-4xl font-bold text-balance text-marca-800 sm:text-5xl">
-      Un sueño que empezó en 2009
-    </h1>
+      <h1 class="mt-5 text-4xl text-balance sm:text-6xl">
+        <span class="registro" data-t="Un sueño que empezó en 2009">
+          <span>Un sueño que empezó en 2009</span>
+        </span>
+      </h1>
 
-    <div class="mt-10 space-y-6 text-lg leading-relaxed text-slate-700">
+      <p class="mt-7 text-xl leading-relaxed text-stone-600">
+        Lo que arrancó como la extensión de una experiencia personal es hoy un
+        taller con producción propia, clientes nacionales y más de 90 personas
+        trabajando.
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-4 py-16">
+    <div class="space-y-6 text-lg leading-relaxed text-stone-700">
+      <figure class="mb-2 w-full sm:float-right sm:mb-4 sm:ml-8 sm:w-72">
+        <Image
+          src={fotoOficio}
+          alt="Trabajador pasando la rasqueta sobre el pulpo de serigrafía en el taller"
+          widths={[288, 576]}
+          sizes="(max-width: 640px) 100vw, 288px"
+          class="w-full rounded-xl border border-stone-200"
+          loading="eager"
+        />
+        <figcaption class="mt-2 text-sm text-stone-500">
+          La serigrafía fue el primer oficio, y sigue siendo el corazón del taller.
+        </figcaption>
+      </figure>
+
       <p>
         La Rañatela es una realidad hoy gracias a un sueño que inició en el año
         2009, a partir de la extensión de una experiencia de la directora actual
         en su trabajo en la inolvidable Rañatela italiana. Uno de los inicios
         primordiales fue la serigrafía, convirtiéndose en un oficio en el que nos
-        hicimos expertos con mucho trabajo, esfuerzo y aprendizaje continuo. En el
-        camino apareció Red Activos, a través de quienes logramos ventas
+        hicimos expertos con mucho trabajo, esfuerzo y aprendizaje continuo. En
+        el camino apareció Red Activos, a través de quienes logramos ventas
         importantes que nos insertaron en un mercado competitivo.
       </p>
 
       <p>
         Un sello de nuestra asociación es la perseverancia y la proyección hacia
         el crecimiento continuo, ya que entendemos que el objetivo merece todo el
-        amor y valor de cada uno de nosotros, como también nuestra lucha común por
-        defender y fortalecer un espacio que representa la verdadera inclusión
-        socio-laboral para personas con discapacidad que no encuentran la
-        oportunidad en el mundo laboral convencional.
+        amor y valor de cada uno de nosotros, como también nuestra lucha común
+        por defender y fortalecer un espacio que representa la verdadera
+        inclusión socio-laboral para personas con discapacidad que no encuentran
+        la oportunidad en el mundo laboral convencional.
       </p>
+    </div>
 
-      <p>
-        Y para ser justos debemos reconocer que la razón más real del crecimiento
-        de este sueño es el amor de cada persona con discapacidad que logra a
-        través de La Rañatela su participación social y su dignidad laboral,
-        impregnando de fuerza cada rincón de nuestra institución.
+    <blockquote
+      class="revelar clear-both my-12 border-l-4 border-marca-600 bg-lienzo px-6 py-6 sm:px-8"
+    >
+      <p class="font-display text-2xl leading-snug font-bold text-acento-700 sm:text-3xl">
+        La razón más real del crecimiento de este sueño es el amor de cada
+        persona con discapacidad que logra, a través de La Rañatela, su
+        participación social y su dignidad laboral.
       </p>
+    </blockquote>
+
+    <div class="space-y-6 text-lg leading-relaxed text-stone-700">
+      <figure class="mb-2 w-full sm:float-left sm:mb-4 sm:mr-8 sm:w-72">
+        <Image
+          src={fotoTaller}
+          alt="Nave del taller con decenas de bolsas serigrafiadas colgadas para secar"
+          widths={[288, 576]}
+          sizes="(max-width: 640px) 100vw, 288px"
+          class="w-full rounded-xl border border-stone-200"
+          loading="lazy"
+        />
+        <figcaption class="mt-2 text-sm text-stone-500">
+          La nave propia permitió producir en volumen: acá, un pedido de Arcor secando.
+        </figcaption>
+      </figure>
 
       <p>
         El progreso fue llegando y con ello la necesidad de un nuevo lugar.
@@ -49,22 +129,67 @@ import Layout from '../layouts/Layout.astro';
         facilitaron el crecimiento edilicio y concretamos dos ampliaciones,
         aumentando los sectores, productos y capacidad de inclusión.
       </p>
+
+      <p>
+        Hoy esa capacidad se traduce en algo concreto: más de 90 personas con
+        discapacidad participando de un contexto socio-laboral real, con
+        formación, acompañamiento y actividades que exceden lo productivo.
+      </p>
+    </div>
+
+    <div class="clear-both"></div>
+  </section>
+
+  <section class="border-y border-stone-200 bg-white py-16">
+    <div class="mx-auto max-w-5xl px-4">
+      <h2 class="text-3xl sm:text-4xl">
+        <span class="registro" data-t="El camino"><span>El camino</span></span>
+      </h2>
+
+      <ol class="revelar-grupo mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          hitos.map((hito) => (
+            <li class="border-t-2 border-marca-600 pt-5">
+              <p class="font-display text-2xl font-extrabold text-marca-600">
+                {hito.anio}
+              </p>
+              <h3 class="mt-2 text-lg font-bold text-acento-700">{hito.titulo}</h3>
+              <p class="mt-2 text-sm text-stone-600">{hito.detalle}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
-  <section class="border-y border-slate-200 bg-marca-50 py-16">
-    <div class="mx-auto grid max-w-4xl grid-cols-1 gap-10 px-4 text-center sm:grid-cols-3">
-      <div>
-        <p class="text-5xl font-bold text-marca-700">2009</p>
-        <p class="mt-2 text-slate-700">Año de fundación</p>
-      </div>
-      <div>
-        <p class="text-5xl font-bold text-marca-700">+90</p>
-        <p class="mt-2 text-slate-700">Personas incluidas</p>
-      </div>
-      <div>
-        <p class="text-5xl font-bold text-marca-700">2014</p>
-        <p class="mt-2 text-slate-700">Sede propia</p>
+  <section class="mx-auto max-w-5xl px-4 py-16">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+      <Image
+        src={fotoEquipo}
+        alt="Equipo del taller trabajando entre las bolsas colgadas en la línea de secado"
+        widths={[400, 800]}
+        sizes="(max-width: 1024px) 100vw, 480px"
+        class="revelar w-full rounded-xl border border-stone-200"
+        loading="lazy"
+      />
+
+      <div class="revelar">
+        <h2 class="text-3xl sm:text-4xl">
+          <span class="registro" data-t="Más que un taller">
+            <span>Más que un taller</span>
+          </span>
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-stone-700">
+          Además de la producción, sostenemos actividades socio-recreativas, de
+          acompañamiento y de formación. El objetivo no es solo que haya trabajo:
+          es que haya participación social y desarrollo integral de cada persona.
+        </p>
+        <a
+          href="/contacto"
+          class="mt-8 inline-block rounded-full bg-marca-600 px-6 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-marca-700"
+        >
+          Trabajemos juntos
+        </a>
       </div>
     </div>
   </section>

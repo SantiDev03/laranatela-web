@@ -7,7 +7,6 @@ colores:
   - A elección del cliente
 impresion:
   - Bordado
-  - Serigrafía
 reciclado: false
 destacado: true
 orden: 4

@@ -1,21 +1,165 @@
 @import "tailwindcss";
 
 @theme {
-  --color-marca-50: #f0f9f4;
-  --color-marca-100: #dcf2e4;
-  --color-marca-200: #bbe5cc;
-  --color-marca-300: #8dd0ab;
-  --color-marca-400: #57b384;
-  --color-marca-500: #339664;
-  --color-marca-600: #23784f;
-  --color-marca-700: #1d6041;
-  --color-marca-800: #1a4c35;
-  --color-marca-900: #163f2d;
+  /* Rojo del logo institucional */
+  --color-marca-50: #fdf5f6;
+  --color-marca-100: #fae7e8;
+  --color-marca-200: #f3c6c9;
+  --color-marca-300: #ea969c;
+  --color-marca-400: #de5962;
+  --color-marca-500: #d52e39;
+  --color-marca-600: #d0121f;
+  --color-marca-700: #ae0f1a;
+  --color-marca-800: #8d0c15;
+  --color-marca-900: #720911;
 
-  --color-acento-400: #f5a623;
-  --color-acento-500: #e07b2c;
-  --color-acento-600: #c25f18;
-  --color-acento-700: #9c4a15;
+  /* Tinta: negro cálido */
+  --color-acento-400: #a8a29e;
+  --color-acento-500: #57534e;
+  --color-acento-600: #2b2b28;
+  --color-acento-700: #1d1d1b;
+
+  /* Lienzo crudo: el color del material que fabrican */
+  --color-lienzo: #f7f2e8;
+  --color-lienzo-oscuro: #ede5d6;
+
+  /* Colores vivos, tomados de los productos reales */
+  --color-vivo-naranja: #e8631c;
+  --color-vivo-azul: #14487f;
+  --color-vivo-violeta: #5b3a86;
 
   --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Inter Variable", sans-serif;
+}
+
+/* ---------------------------------------------------------------
+   FIRMA: fuera de registro serigráfico.
+   Una capa roja corrida detrás del texto que entra en registro.
+   Uso:  <h1 class="registro" data-t="Texto"><span>Texto</span></h1>
+   El data-t debe repetir exactamente el texto del span.
+---------------------------------------------------------------- */
+.registro {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+.registro::before {
+  content: attr(data-t);
+  position: absolute;
+  inset: 0;
+  color: var(--color-marca-600);
+  transform: translate(0.075em, 0.075em);
+  animation: entrar-en-registro 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s forwards;
+}
+
+.registro > span {
+  position: relative;
+  mix-blend-mode: multiply;
+}
+
+@keyframes entrar-en-registro {
+  to {
+    transform: translate(0.022em, 0.022em);
+  }
+}
+
+/* Divisor tipo costura */
+.costura {
+  height: 2px;
+  border: 0;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-marca-600) 0 10px,
+    transparent 10px 20px
+  );
+  background-size: 20px 2px;
+  background-repeat: repeat-x;
+}
+
+/* Títulos con la display por defecto */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Quien pidió menos movimiento en su sistema, no lo recibe */
+@media (prefers-reduced-motion: reduce) {
+  .registro::before {
+    animation: none;
+    transform: translate(0.022em, 0.022em);
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Revelado al hacer scroll.
+   Se marca con class="revelar"; el script agrega .visible.
+---------------------------------------------------------------- */
+.revelar {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.revelar.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Escalonado dentro de una grilla */
+.revelar-grupo > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.revelar-grupo.visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+.revelar-grupo.visible > *:nth-child(1) { transition-delay: 0ms; }
+.revelar-grupo.visible > *:nth-child(2) { transition-delay: 70ms; }
+.revelar-grupo.visible > *:nth-child(3) { transition-delay: 140ms; }
+.revelar-grupo.visible > *:nth-child(4) { transition-delay: 210ms; }
+.revelar-grupo.visible > *:nth-child(5) { transition-delay: 280ms; }
+.revelar-grupo.visible > *:nth-child(6) { transition-delay: 350ms; }
+.revelar-grupo.visible > *:nth-child(7) { transition-delay: 420ms; }
+.revelar-grupo.visible > *:nth-child(8) { transition-delay: 490ms; }
+
+/* Cursor de lupa sobre las fotos de una galería */
+[data-galeria] img {
+  cursor: zoom-in;
+}
+
+/* El visor bloquea el scroll del fondo mientras está abierto */
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revelar,
+  .revelar-grupo > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
