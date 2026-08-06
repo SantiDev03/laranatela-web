@@ -2,6 +2,7 @@
 nombre: Mochila con Cordón de Gabardina
 categoria: mochilas-bolsos
 material: gabardina
+materialesAlternativos: ["Lienzo", "Friselina"]
 resumen: Mochila tipo tula con cierre por cordón. Liviana, económica y muy usada en eventos.
 colores:
   - A elección del cliente

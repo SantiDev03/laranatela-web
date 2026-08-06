@@ -1,0 +1,45 @@
+---
+// Datos estructurados LocalBusiness (schema.org) para SEO local.
+// Se incluye una sola vez, en el <head> del Layout global.
+
+const datosNegocio = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'La Rañatela',
+  alternateName: 'La Rañatela | Eco Bolsas',
+  description:
+    'Fabricamos bolsas reutilizables, mochilas, indumentaria corporativa y merchandising a medida, con inclusión socio-laboral de personas con discapacidad. Diseño de producto, diseño gráfico y reciclado textil en Maipú, Mendoza.',
+  url: 'https://laranatela.com',
+  logo: 'https://laranatela.com/logo.svg',
+  image: 'https://laranatela.com/og.jpg',
+  telephone: '+54 261 534-1275', // TODO: confirmar cuál es el número vigente (ver nota sobre el Business Profile)
+  email: 'lorena.laranatela@gmail.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'J. B. Martínez 200',
+    addressLocality: 'Maipú',
+    addressRegion: 'Mendoza',
+    postalCode: 'M5515',
+    addressCountry: 'AR',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -32.9709119,
+    longitude: -68.7896005,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '09:00',
+    closes: '16:00',
+  },
+  sameAs: [
+    'https://www.facebook.com/laranatela/',
+    'https://www.linkedin.com/company/la-ra%C3%B1atela',
+    'https://www.instagram.com/laranatelamendoza/',
+    'https://www.youtube.com/channel/UCJcZCnnFNcXToLUnfap1Chg',
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datosNegocio)} />

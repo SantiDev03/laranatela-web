@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  titulo="Consulta enviada"
+  descripcion="Recibimos tu consulta. Te vamos a responder a la brevedad."
+>
+  <section class="mx-auto max-w-2xl px-4 py-24 text-center">
+    <p
+      class="flex items-center justify-center gap-3 text-xs font-semibold tracking-[0.16em] text-marca-600 uppercase"
+    >
+      Contacto
+    </p>
+    <h1 class="mt-5 text-4xl sm:text-5xl">¡Listo, la recibimos!</h1>
+    <p class="mt-6 text-lg text-stone-600">
+      Gracias por escribirnos. Vamos a revisar tu consulta y te respondemos a
+      la brevedad, generalmente dentro de las 24 a 48 horas hábiles.
+    </p>
+    <p class="mt-4 text-stone-600">
+      Si es urgente, también podés escribirnos por
+      <a
+        href="https://wa.me/5492615341275?text=%C2%A1Hola%21%20Reci%C3%A9n%20envi%C3%A9%20una%20consulta%20por%20la%20web%20y%20quer%C3%ADa%20contactarlos%20directo%2C%20es%20un%20poco%20urgente."
+        class="font-medium text-marca-600 underline hover:text-acento-700"
+      >
+        WhatsApp
+      </a>.
+    </p>
+    <a
+      href="/"
+      class="mt-10 inline-block rounded-full bg-marca-600 px-6 py-3 font-semibold text-white transition hover:bg-marca-700"
+    >
+      Volver al inicio
+    </a>
+  </section>
+</Layout>

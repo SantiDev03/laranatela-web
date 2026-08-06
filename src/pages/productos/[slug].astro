@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
+import SchemaProduct from '../../components/SchemaProduct.astro';
 
 export async function getStaticPaths() {
   const productos = await getCollection('productos');
@@ -49,9 +50,61 @@ const nombresFuelle: Record<string, string> = {
   base: 'Fuelle en base',
   contorno: 'Fuelle en contorno',
 };
+
+// Texto de opciones de material para la ficha técnica.
+// - materialFijo: true -> no se muestra nada (no hay alternativa).
+// - materialesAlternativos con datos -> lista puntual para este producto.
+// - si no, el texto general (regla por defecto para la mayoría del catálogo).
+const textoOpcionesMaterial = producto.data.materialesAlternativos.length > 0
+  ? `También en ${producto.data.materialesAlternativos.join(', ')}.`
+  : 'También podemos confeccionarlo en friselina, gabardina o lienzo. Consultanos si necesitás otra tela.';
+
+// --- Datos para el schema Product ---
+
+const urlCanonica = new URL(Astro.url.pathname, Astro.site);
+
+const rutasImagenes = [
+  producto.data.imagen?.src,
+  ...producto.data.galeria.map((foto) => foto.src.src),
+].filter((ruta): ruta is string => Boolean(ruta));
+
+const imagenesProducto = rutasImagenes.map((ruta) => new URL(ruta, Astro.site).href);
+
+const propiedadesProducto = [
+  producto.data.fuelle && {
+    nombre: 'Fuelle',
+    valor: nombresFuelle[producto.data.fuelle],
+  },
+  {
+    nombre: 'Medidas',
+    valor: producto.data.medidaReferencia ?? 'A medida del cliente',
+  },
+  producto.data.colores.length > 0 && {
+    nombre: 'Colores',
+    valor: producto.data.colores.join(', '),
+  },
+  producto.data.impresion.length > 0 && {
+    nombre: 'Personalización',
+    valor: producto.data.impresion.join(', '),
+  },
+  !producto.data.materialFijo && {
+    nombre: 'Otras opciones de tela',
+    valor: textoOpcionesMaterial,
+  },
+].filter((propiedad): propiedad is { nombre: string; valor: string } => Boolean(propiedad));
 ---
 
 <Layout titulo={producto.data.nombre} descripcion={producto.data.resumen}>
+  <SchemaProduct
+    nombre={producto.data.nombre}
+    descripcion={producto.data.resumen}
+    imagenes={imagenesProducto}
+    categoria={nombresCategoria[producto.data.categoria]}
+    material={nombresMaterial[producto.data.material]}
+    url={urlCanonica.href}
+    propiedades={propiedadesProducto}
+  />
+
   <article class="mx-auto max-w-3xl px-4 py-12">
     <nav aria-label="Migas de pan" class="text-sm text-slate-500">
       <ol class="flex flex-wrap items-center gap-2">
@@ -172,6 +225,15 @@ const nombresFuelle: Record<string, string> = {
               <dd class="mt-1 text-slate-800">
                 {producto.data.impresion.join(', ')}
               </dd>
+            </div>
+          )
+        }
+
+        {
+          !producto.data.materialFijo && (
+            <div>
+              <dt class="text-sm font-medium text-slate-500">Otras opciones de tela</dt>
+              <dd class="mt-1 text-slate-800">{textoOpcionesMaterial}</dd>
             </div>
           )
         }

@@ -1,7 +1,8 @@
 ---
 nombre: Mochila con Cordón de Lienzo
 categoria: mochilas-bolsos
-material: lienzo
+material: gabardina
+materialesAlternativos: ["Lienzo", "Friselina"]
 resumen: Mochila tipo tula en lienzo natural o teñido, con cordón de ajuste.
 colores:
   - A elección del cliente

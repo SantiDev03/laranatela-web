@@ -1,9 +1,5 @@
 ---
-import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-
-import fotoSerigrafia from '../assets/historia/serigrafia-proceso.jpg';
-import fotoProduccion from '../assets/historia/produccion-bolsas.jpg';
 
 const tecnicas = [
   {
@@ -125,14 +121,19 @@ const servicios = [
 
   <section class="border-y border-stone-200 bg-lienzo py-16">
     <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
-      <Image
-        src={fotoSerigrafia}
-        alt="Trabajador pasando la rasqueta sobre el pulpo de serigrafía"
-        widths={[400, 800]}
-        sizes="(max-width: 1024px) 100vw, 520px"
-        class="revelar w-full rounded-xl border border-stone-200"
-        loading="lazy"
-      />
+      <video
+        id="video-taller"
+        autoplay
+        muted
+        loop
+        playsinline
+        controls
+        preload="metadata"
+        poster="/images/taller-servicios-poster.jpg"
+        class="revelar aspect-[4/5] w-full rounded-xl border border-stone-200 object-cover"
+      >
+        <source src="/videos/taller-servicios.mp4" type="video/mp4" />
+      </video>
 
       <div class="revelar">
         <h2 class="text-3xl sm:text-4xl">
@@ -188,14 +189,15 @@ const servicios = [
         </a>
       </div>
 
-      <Image
-        src={fotoProduccion}
-        alt="Bolsas serigrafiadas colgadas en la línea de secado del taller"
-        widths={[400, 800]}
-        sizes="(max-width: 1024px) 100vw, 520px"
-        class="w-full rounded-xl"
-        loading="lazy"
-      />
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster="/images/reciclaje-servicios-poster.jpg"
+        class="aspect-[4/5] w-full rounded-xl object-cover"
+      >
+        <source src="/videos/reciclaje-servicios.mp4" type="video/mp4" />
+      </video>
     </div>
   </section>
 
@@ -217,3 +219,13 @@ const servicios = [
     </a>
   </section>
 </Layout>
+
+<script>
+  // Si el sistema del usuario tiene activado "reducir movimiento",
+  // no arrancamos el video de fondo solo — que lo inicie a mano con los controles.
+  const videoTaller = document.getElementById('video-taller') as HTMLVideoElement | null;
+  if (videoTaller && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    videoTaller.removeAttribute('autoplay');
+    videoTaller.pause();
+  }
+</script>

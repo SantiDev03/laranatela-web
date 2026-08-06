@@ -1,0 +1,59 @@
+---
+// Datos estructurados Product (schema.org), uno por página de ficha de producto.
+// Sin "offers": trabajamos a cotización, sin precio fijo publicado — agregar un
+// precio inventado violaría las guías de Google sobre datos estructurados.
+
+interface PropiedadAdicional {
+  nombre: string;
+  valor: string;
+}
+
+interface Props {
+  nombre: string;
+  descripcion: string;
+  imagenes: string[];
+  categoria: string;
+  material: string;
+  url: string;
+  propiedades?: PropiedadAdicional[];
+}
+
+const {
+  nombre,
+  descripcion,
+  imagenes,
+  categoria,
+  material,
+  url,
+  propiedades = [],
+} = Astro.props;
+
+const datosProducto = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: nombre,
+  description: descripcion,
+  image: imagenes,
+  url,
+  category: categoria,
+  material,
+  brand: {
+    '@type': 'Brand',
+    name: 'La Rañatela',
+  },
+  manufacturer: {
+    '@type': 'Organization',
+    name: 'La Rañatela',
+    url: 'https://laranatela.com',
+  },
+  ...(propiedades.length > 0 && {
+    additionalProperty: propiedades.map((propiedad) => ({
+      '@type': 'PropertyValue',
+      name: propiedad.nombre,
+      value: propiedad.valor,
+    })),
+  }),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datosProducto)} />

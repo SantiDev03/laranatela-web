@@ -36,6 +36,13 @@ const productos = defineCollection({
       reciclado: z.boolean().default(false),
       destacado: z.boolean().default(false),
       orden: z.number().default(99),
+      // Sin alternativa de material (ej: mochila urbana, delantales, chalecos).
+      // Si es true, la ficha no muestra ninguna opción extra de tela.
+      materialFijo: z.boolean().default(false),
+      // Telas alternativas puntuales para ESTE producto (ej: ['FOIL'] para el
+      // tote grande). Si queda vacío y materialFijo es false, la ficha muestra
+      // el texto general (friselina, gabardina o lienzo, consultar otra tela).
+      materialesAlternativos: z.array(z.string()).default([]),
       imagen: image().optional(),
       imagenAlt: z.string().optional(),
       galeria: z.array(z.object({ src: image(), alt: z.string() })).default([]),
