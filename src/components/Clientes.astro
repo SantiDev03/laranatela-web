@@ -1,18 +1,20 @@
 ---
 import { Image } from 'astro:assets';
 
-import cocaCola from '../assets/clientes/coca-cola.png';
-import andina from '../assets/clientes/andina.png';
+import cocaColaAndina from '../assets/clientes/coca-cola-andina.png';
 import ypf from '../assets/clientes/ypf.png';
 import arcor from '../assets/clientes/arcor.png';
 import fecovita from '../assets/clientes/fecovita.png';
+import pampaEnergia from '../assets/clientes/pampa-energia.png';
+import oscarDavid from '../assets/clientes/oscar-david.png';
 
 const clientes = [
-  { logo: cocaCola, nombre: 'Coca-Cola' },
-  { logo: andina, nombre: 'Andina' },
-  { logo: ypf, nombre: 'YPF' },
-  { logo: arcor, nombre: 'Arcor' },
-  { logo: fecovita, nombre: 'Fecovita' },
+  { logo: cocaColaAndina, nombre: 'Coca-Cola Andina', clase: 'h-12 w-40' },
+  { logo: ypf, nombre: 'YPF', clase: 'h-12 w-40' },
+  { logo: arcor, nombre: 'Arcor', clase: 'h-12 w-40' },
+  { logo: oscarDavid, nombre: 'Oscar David Mayorista', clase: 'h-24 w-40' },
+  { logo: pampaEnergia, nombre: 'Pampa Energía', clase: 'h-12 w-40' },
+  { logo: fecovita, nombre: 'Fecovita', clase: 'h-12 w-40' },
 ];
 ---
 
@@ -31,17 +33,17 @@ const clientes = [
     </h2>
 
     <ul
-      class="revelar-grupo mt-12 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5"
+      class="revelar-grupo mt-12 grid grid-cols-2 items-center justify-items-center gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-6"
     >
       {
         clientes.map((cliente) => (
-          <li class="flex h-20 w-full items-center justify-center">
+          <li class="flex h-28 w-full items-center justify-center">
             <Image
               src={cliente.logo}
               alt={`Logo de ${cliente.nombre}`}
               widths={[220, 440]}
-              sizes="200px"
-              class="max-h-16 w-auto max-w-[170px] object-contain opacity-70 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0"
+              sizes="160px"
+              class={`${cliente.clase} object-contain`}
               loading="lazy"
             />
           </li>

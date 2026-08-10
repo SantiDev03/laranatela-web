@@ -25,6 +25,21 @@ const urlImagen = new URL(imagen, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google Analytics -->
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-FP88SY9YFQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-FP88SY9YFQ');
+    </script>
+
     <title>{tituloCompleto}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={urlCanonica} />
@@ -111,6 +126,13 @@ const urlImagen = new URL(imagen, Astro.site);
             </p>
           </div>
         </div>
+
+        <p class="mt-10 border-t border-stone-300 pt-6 text-xs text-stone-500">
+          © {new Date().getFullYear()} La Rañatela ·
+          <a href="/privacidad" class="underline hover:text-marca-600">
+            Política de Privacidad
+          </a>
+        </p>
       </div>
     </footer>
 
@@ -140,4 +162,4 @@ const urlImagen = new URL(imagen, Astro.site);
       }
     </script>
   </body>
-</html>---
+</html>

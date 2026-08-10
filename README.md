@@ -1,43 +1,65 @@
-# Astro Starter Kit: Minimal
+Readme · MD
+La Rañatela — Sitio web
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Sitio institucional y catálogo de productos de La Rañatela, organización de inclusión socio-laboral con base en Maipú, Mendoza. El sitio reemplaza al anterior desarrollo en WordPress (laranatela.com.ar).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+🔗 laranatela.com
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
+Stack
+Astro 7 + TypeScript — sitio 100% estático, sin adapter
+Tailwind CSS para estilos
+Content Collections de Astro para el catálogo de productos (src/content/productos/)
+Cloudflare Worker independiente (worker-consulta/) para el envío del formulario de contacto vía Resend, ya que el hosting (DonWeb, plan compartido) no soporta Node.js
+Google Analytics 4 para métricas
+Hosting: DonWeb / Ferozo (subida manual por FTP a public_html)
+Estructura del proyecto
+text
 /
-├── public/
+├── public/              # Assets estáticos servidos tal cual (favicon, .htaccess, etc.)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+│   ├── assets/          # Imágenes procesadas por Astro (productos, clientes, hero)
+│   ├── components/      # Componentes .astro reutilizables
+│   ├── content/
+│   │   └── productos/   # Catálogo — un .md por producto, ver schema en content.config.ts
+│   ├── layouts/          
+│   ├── pages/            # Rutas del sitio (file-based routing)
+│   └── content.config.ts # Schema de validación del catálogo (Zod)
+├── worker-consulta/     # Cloudflare Worker aparte, maneja el POST del formulario de contacto
+└── astro.config.mjs
+Catálogo de productos
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Cada producto es un archivo .md en src/content/productos/ con frontmatter validado contra el schema en content.config.ts. Categorías disponibles: bolsas, mochilas-bolsos, neceseres, linea-vinos, termicos, indumentaria, combos, merchandising.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Las imágenes se referencian con rutas relativas a src/assets/productos/ (helper image() de Astro), no desde public/.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Comandos
 
-## 🧞 Commands
+Todos los comandos se corren desde la raíz del proyecto:
 
-All commands are run from the root of the project, from a terminal:
+Comando	Acción
+npm install	Instala dependencias
+npm run dev	Levanta el servidor de desarrollo en localhost:4321
+npm run build	Genera el sitio estático en ./dist/
+npm run preview	Sirve el build de producción localmente para probarlo
+Formulario de contacto (Cloudflare Worker)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+El <form> de /contacto postea directo a https://laranatela-consulta.laranatela.workers.dev, sin pasar por Astro. El Worker vive en worker-consulta/ con su propio package.json y wrangler.jsonc.
 
-## 👀 Want to learn more?
+Para trabajar sobre el Worker:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+sh
+cd worker-consulta
+npm install
+npx wrangler dev       # entorno local
+npx wrangler deploy    # publica cambios
+
+El RESEND_API_KEY se configura como secret de Wrangler (npx wrangler secret put RESEND_API_KEY), nunca como variable en texto plano en el repo.
+
+Despliegue
+
+El sitio es estático, así que el deploy consiste en:
+
+npm run build
+Subir el contenido de dist/ (no la carpeta en sí, su contenido) a public_html/ en el hosting de DonWeb vía FTP (FileZilla)
+
+El dominio laranatela.com y laranatela.com.ar apuntan al mismo hosting/public_html. Los redirects desde URLs del WordPress viejo están en public/.htaccess.

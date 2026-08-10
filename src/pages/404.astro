@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  titulo="Página no encontrada"
+  descripcion="Esta página no existe o fue movida."
+>
+  <section class="mx-auto max-w-2xl px-4 py-24 text-center">
+    <p
+      class="flex items-center justify-center gap-3 text-xs font-semibold tracking-[0.16em] text-marca-600 uppercase"
+    >
+      Error 404
+    </p>
+    <h1 class="mt-5 text-4xl sm:text-5xl">Esta página se nos escapó del taller</h1>
+    <p class="mt-6 text-lg text-stone-600">
+      El link que seguiste no existe o cambió de lugar. Puede que la página se
+      haya movido, o que el link tenga un error.
+    </p>
+
+    <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <a
+        href="/"
+        class="inline-block rounded-full bg-marca-600 px-6 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-marca-700"
+      >
+        Volver al inicio
+      </a>
+      <a
+        href="/productos"
+        class="inline-block rounded-full border border-stone-300 px-6 py-3 font-semibold text-acento-700 transition hover:border-marca-600 hover:text-marca-600"
+      >
+        Ver catálogo
+      </a>
+    </div>
+
+    <p class="mt-10 text-stone-500">
+      Si creés que esto es un error,
+      <a href="/contacto" class="font-medium text-marca-600 underline hover:text-acento-700">
+        contactanos
+      </a>
+      y lo revisamos.
+    </p>
+  </section>
+</Layout>

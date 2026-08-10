@@ -1,0 +1,10 @@
+# Redirects del sitio viejo (WordPress, laranatela.com.ar) al sitio nuevo.
+# Formato Apache (mod_alias) — este es el que entiende el hosting de DonWeb.
+
+# Categorías de producto viejas -> catálogo único nuevo
+# (Redirect hace coincidencia por prefijo, así que esto también cubre
+# /eco-bolsas/, /eco-bolsas/algo-mas, etc., no hace falta una línea por caso)
+Redirect 301 /eco-bolsas /productos
+Redirect 301 /mochilas-bolsos /productos
+Redirect 301 /combos /productos
+Redirect 301 /merchandising /productos

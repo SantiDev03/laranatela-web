@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Clientes from '../components/Clientes.astro';
+import equipoPiramide from '../assets/equipo-piramide.jpg';
 
 const productos = await getCollection('productos');
 
@@ -41,8 +42,20 @@ const estiloChip: Record<string, string> = {
   titulo="Inicio"
   descripcion="Fabricamos bolsas, mochilas, neceseres e indumentaria a medida en Maipú, Mendoza. Cada pedido sostiene el trabajo de más de 90 personas con discapacidad."
 >
-  <section class="bg-lienzo py-20 sm:py-28">
-    <div class="mx-auto max-w-6xl px-4">
+  <section class="relative overflow-hidden py-20 sm:py-28">
+    <div class="absolute inset-0">
+      <Image
+        src={equipoPiramide}
+        alt="Equipo de La Rañatela reunido frente a una escultura piramidal en Mendoza"
+        widths={[800, 1600, 2400]}
+        sizes="100vw"
+        class="h-full w-full object-cover"
+        loading="eager"
+      />
+      <div class="absolute inset-0 bg-lienzo/60"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-6xl px-4">
       <p
         class="flex items-center gap-3 text-xs font-semibold tracking-[0.16em] text-marca-600 uppercase"
       >
@@ -59,7 +72,7 @@ const estiloChip: Record<string, string> = {
         </span>
       </h1>
 
-      <p class="revelar mt-8 max-w-xl text-lg text-stone-600">
+      <p class="revelar mt-8 max-w-xl text-lg font-medium text-stone-900">
         Fabricamos bolsas, mochilas, neceseres e indumentaria a medida para
         empresas. Cada pedido sostiene el trabajo de más de 90 personas con
         discapacidad.
@@ -85,7 +98,7 @@ const estiloChip: Record<string, string> = {
   <div class="revelar-grupo grid grid-cols-2 gap-px border-y border-stone-200 bg-stone-200 lg:grid-cols-4">
     {
       cifras.map((cifra) => (
-        <div class="bg-white px-6 py-7">
+        <div class="bg-white px-6 py-7 text-center">
           <p class="font-display text-4xl font-extrabold text-marca-600">
             {cifra.dato}
           </p>
