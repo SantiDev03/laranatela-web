@@ -1,0 +1,201 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  titulo="Terapia Ocupacional"
+  descripcion="Lianyeli, el espacio de terapia ocupacional de La Rañatela, en Maipú, Mendoza."
+>
+  <section class="mx-auto max-w-2xl px-4 py-24 text-center sm:py-32">
+    <p class="text-sm font-semibold tracking-wide text-acento-700 uppercase">
+      Terapia Ocupacional
+    </p>
+
+    <h1 class="mt-3 font-display text-4xl font-bold text-vivo-naranja sm:text-5xl">
+      Estamos cosiendo esta sección
+    </h1>
+
+    <p class="mt-5 text-lg text-stone-600">
+      <!--
+        Texto actual: igual al de Novedades, tal como se pidió.
+        Alternativa más precisa (el espacio ya funciona, falta el
+        contenido audiovisual): "Todavía no tenemos fotos ni videos
+        para mostrarte, pero Lianyeli ya funciona. Mientras tanto,
+        contanos y te contamos más."
+      -->
+      Todavía no está lista, pero la estamos armando puntada por puntada.
+      Mientras tanto, contanos qué necesitás y te ayudamos igual.
+    </p>
+
+    <div class="puntada-contenedor" aria-hidden="true">
+      <div class="puntada-base"></div>
+      <div class="puntada-progreso"></div>
+      <div class="puntada-aguja">
+        <div class="puntada-bob">
+          <svg
+            width="14"
+            height="42"
+            viewBox="0 0 14 42"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="7"
+              y1="8"
+              x2="7"
+              y2="40"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></line>
+            <ellipse
+              cx="7"
+              cy="6"
+              rx="3"
+              ry="4.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+            ></ellipse>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <a
+        href="/contacto"
+        class="rounded-full bg-vivo-naranja px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#b94f16]"
+      >
+        Escribinos
+      </a>
+      <a
+        href="/historia"
+        class="text-sm font-medium text-stone-500 underline decoration-stone-300 underline-offset-4 hover:text-vivo-naranja"
+      >
+        Conocé más sobre La Rañatela
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .puntada-contenedor {
+      position: relative;
+      width: 100%;
+      max-width: 20rem;
+      height: 3rem;
+      margin: 3.5rem auto 0;
+    }
+
+    .puntada-base {
+      position: absolute;
+      inset-inline: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 2px dashed var(--color-stone-300, #d6d3d1);
+    }
+
+    .puntada-progreso {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0%;
+      transform: translateY(-50%);
+      border-top: 2px solid var(--color-vivo-naranja, #e8631c);
+      animation: puntada-crecer 4.5s linear infinite;
+    }
+
+    .puntada-aguja {
+      position: absolute;
+      left: 0%;
+      top: 50%;
+      transform: translate(-50%, -70%);
+      color: var(--color-vivo-naranja, #e8631c);
+      animation: puntada-mover 4.5s linear infinite;
+    }
+
+    .puntada-bob {
+      animation: puntada-bob 0.4s ease-in-out infinite;
+      transform-origin: top center;
+    }
+
+    @keyframes puntada-crecer {
+      0% {
+        width: 0%;
+        opacity: 1;
+      }
+      42% {
+        width: 100%;
+        opacity: 1;
+      }
+      48% {
+        width: 100%;
+        opacity: 0;
+      }
+      50% {
+        width: 0%;
+        opacity: 0;
+      }
+      58% {
+        width: 0%;
+        opacity: 1;
+      }
+      100% {
+        width: 0%;
+        opacity: 1;
+      }
+    }
+
+    @keyframes puntada-mover {
+      0% {
+        left: 0%;
+        opacity: 1;
+      }
+      42% {
+        left: 100%;
+        opacity: 1;
+      }
+      48% {
+        left: 100%;
+        opacity: 0;
+      }
+      50% {
+        left: 0%;
+        opacity: 0;
+      }
+      58% {
+        left: 0%;
+        opacity: 1;
+      }
+      100% {
+        left: 0%;
+        opacity: 1;
+      }
+    }
+
+    @keyframes puntada-bob {
+      0%,
+      100% {
+        transform: translateY(0) rotate(-6deg);
+      }
+      50% {
+        transform: translateY(5px) rotate(-6deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .puntada-progreso,
+      .puntada-aguja,
+      .puntada-bob {
+        animation: none;
+      }
+      .puntada-progreso {
+        width: 55%;
+        opacity: 1;
+      }
+      .puntada-aguja {
+        left: 55%;
+        opacity: 1;
+      }
+    }
+  </style>
+</Layout>
