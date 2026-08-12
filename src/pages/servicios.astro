@@ -123,11 +123,8 @@ const servicios = [
     <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 lg:grid-cols-2">
       <video
         id="video-taller"
-        autoplay
-        muted
-        loop
-        playsinline
         controls
+        playsinline
         preload="metadata"
         poster="/images/taller-servicios-poster.jpg"
         class="revelar aspect-[4/5] w-full rounded-xl border border-stone-200 object-cover"
@@ -219,13 +216,3 @@ const servicios = [
     </a>
   </section>
 </Layout>
-
-<script>
-  // Si el sistema del usuario tiene activado "reducir movimiento",
-  // no arrancamos el video de fondo solo — que lo inicie a mano con los controles.
-  const videoTaller = document.getElementById('video-taller') as HTMLVideoElement | null;
-  if (videoTaller && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    videoTaller.removeAttribute('autoplay');
-    videoTaller.pause();
-  }
-</script>

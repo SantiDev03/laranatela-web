@@ -8,6 +8,7 @@ const productos = defineCollection({
       nombre: z.string(),
       categoria: z.enum([
         'bolsas',
+        'navidad',
         'mochilas-bolsos',
         'neceseres',
         'linea-vinos',
@@ -28,6 +29,7 @@ const productos = defineCollection({
      'ceramica',
      'algodon',   
      'mixto',
+     'carton',
    ]),
       fuelle: z.enum(['sin-fuelle', 'base', 'contorno']).optional(),
       resumen: z.string(),

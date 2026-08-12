@@ -8,6 +8,7 @@ productos.sort((a, b) => a.data.orden - b.data.orden);
 
 const categorias = [
   { id: 'bolsas', nombre: 'Ecobolsas', agruparPorMaterial: true },
+  { id: 'navidad', nombre: 'Línea navideña', agruparPorMaterial: false },
   { id: 'mochilas-bolsos', nombre: 'Mochilas y bolsos', agruparPorMaterial: false },
   { id: 'neceseres', nombre: 'Neceseres/cartucheras', agruparPorMaterial: false },
   { id: 'linea-vinos', nombre: 'Línea vinos', agruparPorMaterial: false },
@@ -29,6 +30,7 @@ const nombresMaterial: Record<string, string> = {
   ceramica: 'Cerámica',
   algodon: 'Algodón',
   mixto: 'Materiales combinados',
+  carton: 'Cartón',
 };
 
 const nombresFuelle: Record<string, string> = {
