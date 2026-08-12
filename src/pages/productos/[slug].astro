@@ -60,6 +60,12 @@ const textoOpcionesMaterial = producto.data.materialesAlternativos.length > 0
   ? `También en ${producto.data.materialesAlternativos.join(', ')}.`
   : 'También podemos confeccionarlo en friselina, gabardina o lienzo. Consultanos si necesitás otra tela.';
 
+// Mensaje prearmado para el botón de WhatsApp de esta ficha puntual.
+const mensajeWhatsApp = encodeURIComponent(
+  `¡Hola! Vi la página de La Rañatela y quería consultar por ${producto.data.nombre}.`
+);
+const urlWhatsApp = `https://wa.me/5492615341275?text=${mensajeWhatsApp}`;
+
 // --- Datos para el schema Product ---
 
 const urlCanonica = new URL(Astro.url.pathname, Astro.site);
@@ -256,12 +262,22 @@ const propiedadesProducto = [
         Contanos las medidas, la cantidad y qué querés imprimir, y te enviamos
         un presupuesto sin cargo.
       </p>
-      <a
-        href="/contacto"
-        class="mt-6 inline-block rounded-lg bg-white px-6 py-3 font-semibold text-marca-800 transition hover:bg-marca-50"
-      >
-        Pedir cotización
-      </a>
+      <div class="mt-6 flex flex-wrap gap-4">
+        <a
+          href="/contacto"
+          class="inline-block rounded-lg bg-white px-6 py-3 font-semibold text-marca-800 transition hover:bg-marca-50"
+        >
+          Pedir cotización
+        </a>
+        <a
+          href={urlWhatsApp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block rounded-lg border-2 border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-marca-800"
+        >
+          Consultar por WhatsApp
+        </a>
+      </div>
     </div>
 
     <p class="mt-10">
